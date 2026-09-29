@@ -45,6 +45,15 @@ class _MovieListingState extends State<MovieListing> {
         });
       },
     ),
+    ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _orderMessage = 'Added $_ticketQuantity ticket(s) to order.';
+        });
+      },
+      child: const Text('Add to Order'),
+    ),
+    Text(_orderMessage),
   ],
 ),
     );
