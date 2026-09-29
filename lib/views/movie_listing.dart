@@ -22,7 +22,11 @@ class _MovieListingState extends State<MovieListing> {
         elevation: 0,
       ),
       drawer: const NavDrawer(),
-      body: const SizedBox.shrink()
+      body: Column(
+  children: [
+    const Text('The Intern')
+  ],
+)
     );
   }
 }
