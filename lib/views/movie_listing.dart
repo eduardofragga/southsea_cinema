@@ -25,7 +25,9 @@ class _MovieListingState extends State<MovieListing> {
       body: Column(
   children: [
     const Text('The Intern'),
-    const Text('A seventy-year-old Ben Whittaker realises that retirement isn\'t an enjoyable experience. As a result, he decides to work as an intern at an online fashion store managed by an extremely sceptical boss.')
+    const Text('A seventy-year-old Ben Whittaker realises that retirement isn\'t an enjoyable experience. As a result, he decides to work as an intern at an online fashion store managed by an extremely sceptical boss.'),
+    const Text('Duration: 2h 1m'),
+    const Text('Age Rating: 12A'),
   ],
 )
     );
