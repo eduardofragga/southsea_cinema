@@ -24,7 +24,8 @@ class _MovieListingState extends State<MovieListing> {
       drawer: const NavDrawer(),
       body: Column(
   children: [
-    const Text('The Intern')
+    const Text('The Intern'),
+    const Text('A seventy-year-old Ben Whittaker realises that retirement isn\'t an enjoyable experience. As a result, he decides to work as an intern at an online fashion store managed by an extremely sceptical boss.')
   ],
 )
     );
