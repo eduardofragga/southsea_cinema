@@ -35,6 +35,7 @@ class _MovieListingState extends State<MovieListing> {
             ],
           ),
           const Text('A seventy-year-old Ben Whittaker realises that retirement isn\'t an enjoyable experience. As a result, he decides to work as an intern at an online fashion store managed by an extremely sceptical boss.'),
+          const SizedBox(height: 8),
           const Text('Runtime: 1h 55min'),
             
             DropdownMenu<int>(
