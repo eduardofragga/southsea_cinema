@@ -19,7 +19,7 @@ class MovieRepository {
         title: 'John Carter',
         ageRating: '12A',
         synopsis:
-            'Civil War veteran John's resistance to join the army leads him to trouble. He eventually finds himself in a situation where he has superhuman capabilities and discovers that he is on Mars.',
+            "Civil War veteran John's resistance to join the army leads him to trouble. He eventually finds himself in a situation he did not expect.",
         screeningTime: '20:00',
         runtime: '2h 12min',
         ticketPrice: 7.50,
