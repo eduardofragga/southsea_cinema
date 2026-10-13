@@ -30,6 +30,7 @@ class _MovieListingState extends State<MovieListing> {
           Row(
             children: [
         const Text('The Intern'),
+        const SizedBox(width: 8),
         const Text('(12A)'),
             ],
           ),
