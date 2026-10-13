@@ -40,7 +40,7 @@ class _MovieListingState extends State<MovieListing> {
             Text(widget.movie.synopsis),
             const SizedBox(height: 8),
             Text('Runtime: ${widget.movie.runtime}'),
-            
+            Text('Ticket price: ${widget.movie.formattedPrice}'),
             DropdownMenu<int>(
               initialSelection: _ticketQuantity,
               dropdownMenuEntries: const [
@@ -59,7 +59,8 @@ class _MovieListingState extends State<MovieListing> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  _orderMessage = 'Added $_ticketQuantity ticket(s) to order.';
+                  _orderMessage =
+                      'Added $_ticketQuantity ticket(s) to order.';
                 });
               },
               child: const Text('Add to Order'),
