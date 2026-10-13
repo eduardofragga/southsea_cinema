@@ -8,7 +8,7 @@ class MovieRepository {
         title: 'The Intern',
         ageRating: '12A',
         synopsis:
-            'A seventy-year-old Ben Whittaker realises that retirement isn\'t an enjoyable experience. As a result, he decides to work as an intern at an online fashion store managed by an extremely sceptical boss.',
+            'A seventy-year-old man becomes an intern at an online fashion company.',
         screeningTime: '18:30',
         runtime: '1h 55min',
         ticketPrice: 7.50,
@@ -26,5 +26,15 @@ class MovieRepository {
         posterPath: 'assets/images/johncarter.jpg',
       ),
     ];
+  }
+
+  Movie? getMovieById(String id) {
+    for (final movie in getMovies()) {
+      if (movie.id == id) {
+        return movie;
+      }
+    }
+
+    return null;
   }
 }
