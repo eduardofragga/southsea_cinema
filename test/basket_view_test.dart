@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:southsea_cinema/models/movie.dart';
@@ -41,5 +42,25 @@ void main() {
 
     expect(find.text('Your basket is empty'), findsOneWidget);
     expect(basket.getTickets().isEmpty, true);
+  });
+
+  testWidgets('Checkout clears the basket', (WidgetTester tester) async {
+    final basket = BasketRepository();
+    final movie = MovieRepository().getMovies().first;
+
+    basket.addTickets(movie, 2);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BasketView(basketRepository: basket),
+      ),
+    );
+
+    await tester.tap(find.text('Checkout'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Checkout complete!'), findsOneWidget);
+    expect(basket.getTickets().isEmpty, true);
+    expect(basket.getTotal(), 0.0);
   });
 }
