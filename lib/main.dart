@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/views/home_view.dart';
@@ -21,6 +22,12 @@ class SouthseaCinemaApp extends StatelessWidget {
           primary: cinemaBrand,
           surface: cinemaSurface,
         ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: cinemaSurface,
+          iconTheme: IconThemeData(color: cinemaBrand),
+          titleTextStyle: cinemaHeaderStyle,
+          elevation: 0,
+        ),
       ),
       initialRoute: '/',
       routes: {
@@ -29,3 +36,4 @@ class SouthseaCinemaApp extends StatelessWidget {
     );
   }
 }
+
