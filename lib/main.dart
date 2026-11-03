@@ -36,7 +36,9 @@ class SouthseaCinemaApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeView(),
+        '/': (context) => HomeView(
+          basketRepository: basketRepository,
+        ),
         '/basket': (context) => BasketView(
           basketRepository: basketRepository,
         ),
@@ -45,5 +47,3 @@ class SouthseaCinemaApp extends StatelessWidget {
     );
   }
 }
-
-
