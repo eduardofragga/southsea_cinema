@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/models/movie.dart';
+import 'package:southsea_cinema/widgets/primary_button.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
@@ -110,13 +112,9 @@ class MovieCard extends StatelessWidget {
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: PrimaryButton(
+                label: 'Book Tickets',
                 onPressed: onBookPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: cinemaBrand,
-                  foregroundColor: cinemaFontWhite,
-                ),
-                child: const Text('Book Tickets'),
               ),
             ),
           ],
@@ -125,3 +123,4 @@ class MovieCard extends StatelessWidget {
     );
   }
 }
+
