@@ -1,13 +1,18 @@
-
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
 import 'package:southsea_cinema/repositories/movie_repository.dart';
+import 'package:southsea_cinema/repositories/basket_repository.dart';
 import 'package:southsea_cinema/widgets/movie_card.dart';
 import 'package:southsea_cinema/views/movie_listing.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  final BasketRepository basketRepository;
+
+  const HomeView({
+    super.key,
+    required this.basketRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,10 @@ class HomeView extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MovieListing(movie: movie),
+                  builder: (context) => MovieListing(
+                    movie: movie,
+                    basketRepository: basketRepository,
+                  ),
                 ),
               );
             },
@@ -40,4 +48,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-
