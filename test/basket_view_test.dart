@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:southsea_cinema/models/movie.dart';
@@ -22,5 +21,25 @@ void main() {
     expect(find.text('The Intern'), findsOneWidget);
     expect(find.text('2 ticket(s) × £7.50'), findsOneWidget);
     expect(find.text('£15.00'), findsNWidgets(2));
+  });
+
+  testWidgets('Removing tickets updates the basket',
+      (WidgetTester tester) async {
+    final basket = BasketRepository();
+    final movie = MovieRepository().getMovies().first;
+
+    basket.addTickets(movie, 2);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BasketView(basketRepository: basket),
+      ),
+    );
+
+    await tester.tap(find.byIcon(Icons.delete));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Your basket is empty'), findsOneWidget);
+    expect(basket.getTickets().isEmpty, true);
   });
 }
