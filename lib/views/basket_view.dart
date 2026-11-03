@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/repositories/basket_repository.dart';
 
-class BasketView extends StatelessWidget {
+class BasketView extends StatefulWidget {
   final BasketRepository basketRepository;
 
   const BasketView({
@@ -11,8 +11,13 @@ class BasketView extends StatelessWidget {
   });
 
   @override
+  State<BasketView> createState() => _BasketViewState();
+}
+
+class _BasketViewState extends State<BasketView> {
+  @override
   Widget build(BuildContext context) {
-    final tickets = basketRepository.getTickets();
+    final tickets = widget.basketRepository.getTickets();
 
     return Scaffold(
       appBar: AppBar(
@@ -30,14 +35,27 @@ class BasketView extends StatelessWidget {
                     subtitle: Text(
                       '${entry.value} ticket(s) × ${entry.key.formattedPrice}',
                     ),
-                    trailing: Text(
-                      '£${(entry.key.ticketPrice * entry.value).toStringAsFixed(2)}',
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '£${(entry.key.ticketPrice * entry.value).toStringAsFixed(2)}',
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            setState(() {
+                              widget.basketRepository.removeTickets(entry.key);
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ListTile(
                   title: const Text('Total'),
                   trailing: Text(
-                    '£${basketRepository.getTotal().toStringAsFixed(2)}',
+                    '£${widget.basketRepository.getTotal().toStringAsFixed(2)}',
                   ),
                 ),
               ],
