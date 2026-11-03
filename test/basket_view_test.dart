@@ -9,9 +9,12 @@ import 'package:southsea_cinema/views/basket_view.dart';
 void main() {
   testWidgets('Basket displays tickets and total', (WidgetTester tester) async {
     final basket = BasketRepository();
-    final Movie movie = MovieRepository().getMovies().first;
 
-    basket.addTickets(movie, 2);
+    final movie = await tester.runAsync(() async {
+      return (await MovieRepository().getMovies()).first;
+    });
+
+    basket.addTickets(movie!, 2);
 
     await tester.pumpWidget(
       MaterialApp(
@@ -27,9 +30,12 @@ void main() {
   testWidgets('Removing tickets updates the basket',
       (WidgetTester tester) async {
     final basket = BasketRepository();
-    final movie = MovieRepository().getMovies().first;
 
-    basket.addTickets(movie, 2);
+    final movie = await tester.runAsync(() async {
+      return (await MovieRepository().getMovies()).first;
+    });
+
+    basket.addTickets(movie!, 2);
 
     await tester.pumpWidget(
       MaterialApp(
@@ -46,9 +52,12 @@ void main() {
 
   testWidgets('Checkout clears the basket', (WidgetTester tester) async {
     final basket = BasketRepository();
-    final movie = MovieRepository().getMovies().first;
 
-    basket.addTickets(movie, 2);
+    final movie = await tester.runAsync(() async {
+      return (await MovieRepository().getMovies()).first;
+    });
+
+    basket.addTickets(movie!, 2);
 
     await tester.pumpWidget(
       MaterialApp(
