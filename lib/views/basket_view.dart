@@ -1,7 +1,14 @@
+
 import 'package:flutter/material.dart';
+import 'package:southsea_cinema/repositories/basket_repository.dart';
 
 class BasketView extends StatelessWidget {
-  const BasketView({super.key});
+  final BasketRepository basketRepository;
+
+  const BasketView({
+    super.key,
+    required this.basketRepository,
+  });
 
   @override
   Widget build(BuildContext context) {
