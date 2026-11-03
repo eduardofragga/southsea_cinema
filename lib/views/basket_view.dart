@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:southsea_cinema/constants.dart';
 
 class BasketView extends StatelessWidget {
   const BasketView({super.key});
