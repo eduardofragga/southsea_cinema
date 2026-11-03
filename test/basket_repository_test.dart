@@ -4,9 +4,11 @@ import 'package:southsea_cinema/repositories/basket_repository.dart';
 import 'package:southsea_cinema/repositories/movie_repository.dart';
 
 void main() {
-  test('Adding tickets updates the basket', () {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('Adding tickets updates the basket', () async {
     final basket = BasketRepository();
-    final movie = MovieRepository().getMovies().first;
+    final movie = (await MovieRepository().getMovies()).first;
 
     basket.addTickets(movie, 2);
 
@@ -14,9 +16,9 @@ void main() {
     expect(basket.getTotal(), 15.00);
   });
 
-  test('Removing tickets updates the basket', () {
+  test('Removing tickets updates the basket', () async {
     final basket = BasketRepository();
-    final movie = MovieRepository().getMovies().first;
+    final movie = (await MovieRepository().getMovies()).first;
 
     basket.addTickets(movie, 2);
     basket.removeTickets(movie);
@@ -25,9 +27,9 @@ void main() {
     expect(basket.getTotal(), 0.0);
   });
 
-  test('Clearing the basket removes all tickets', () {
+  test('Clearing the basket removes all tickets', () async {
     final basket = BasketRepository();
-    final movies = MovieRepository().getMovies();
+    final movies = await MovieRepository().getMovies();
 
     basket.addTickets(movies[0], 2);
     basket.addTickets(movies[1], 1);
