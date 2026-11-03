@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/views/home_view.dart';
 import 'package:southsea_cinema/views/basket_view.dart';
 import 'package:southsea_cinema/views/settings_view.dart';
+import 'package:southsea_cinema/repositories/basket_repository.dart';
 
 void main() {
   runApp(const SouthseaCinemaApp());
@@ -13,6 +15,8 @@ class SouthseaCinemaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final basketRepository = BasketRepository();
+
     return MaterialApp(
       title: "Southsea Cinema & Arts Centre",
       debugShowCheckedModeBanner: false,
@@ -33,7 +37,9 @@ class SouthseaCinemaApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeView(),
-        '/basket': (context) => const BasketView(),
+        '/basket': (context) => BasketView(
+          basketRepository: basketRepository,
+        ),
         '/settings': (context) => const SettingsView(),
       },
     );
