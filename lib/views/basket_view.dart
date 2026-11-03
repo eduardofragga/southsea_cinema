@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/repositories/basket_repository.dart';
 import 'package:southsea_cinema/widgets/primary_button.dart';

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
@@ -10,10 +9,12 @@ import 'package:southsea_cinema/views/movie_listing.dart';
 
 class HomeView extends StatefulWidget {
   final BasketRepository basketRepository;
+  final MovieRepository? movieRepository;
 
   const HomeView({
     super.key,
     required this.basketRepository,
+    this.movieRepository,
   });
 
   @override
@@ -33,7 +34,8 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _loadMovies() async {
     try {
-      final movies = await MovieRepository().getMovies();
+      final repository = widget.movieRepository ?? MovieRepository();
+      final movies = await repository.getMovies();
 
       if (!mounted) return;
 
