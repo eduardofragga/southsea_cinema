@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/models/movie.dart';
@@ -64,6 +63,11 @@ class _MovieListingState extends State<MovieListing> {
             ),
             PrimaryButton(
               onPressed: () {
+                widget.basketRepository.addTickets(
+                  widget.movie,
+                  _ticketQuantity,
+                );
+
                 setState(() {
                   _orderMessage = 'Added $_ticketQuantity ticket(s) to order.';
                 });
@@ -77,3 +81,4 @@ class _MovieListingState extends State<MovieListing> {
     );
   }
 }
+
