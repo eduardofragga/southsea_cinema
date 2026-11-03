@@ -1,6 +1,8 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/repositories/basket_repository.dart';
+import 'package:southsea_cinema/widgets/primary_button.dart';
 
 class BasketView extends StatefulWidget {
   final BasketRepository basketRepository;
@@ -15,6 +17,8 @@ class BasketView extends StatefulWidget {
 }
 
 class _BasketViewState extends State<BasketView> {
+  String _checkoutMessage = '';
+
   @override
   Widget build(BuildContext context) {
     final tickets = widget.basketRepository.getTickets();
@@ -24,8 +28,12 @@ class _BasketViewState extends State<BasketView> {
         title: const Text('My Basket'),
       ),
       body: tickets.isEmpty
-          ? const Center(
-              child: Text('Your basket is empty'),
+          ? Center(
+              child: Text(
+                _checkoutMessage.isEmpty
+                    ? 'Your basket is empty'
+                    : _checkoutMessage,
+              ),
             )
           : ListView(
               children: [
@@ -57,6 +65,15 @@ class _BasketViewState extends State<BasketView> {
                   trailing: Text(
                     '£${widget.basketRepository.getTotal().toStringAsFixed(2)}',
                   ),
+                ),
+                PrimaryButton(
+                  label: 'Checkout',
+                  onPressed: () {
+                    setState(() {
+                      widget.basketRepository.clearBasket();
+                      _checkoutMessage = 'Checkout complete!';
+                    });
+                  },
                 ),
               ],
             ),
