@@ -1,9 +1,14 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:southsea_cinema/widgets/primary_button.dart';
 
 class SettingsView extends StatefulWidget {
-  const SettingsView({super.key});
+  final SharedPreferencesAsync? preferences;
+
+  const SettingsView({
+    super.key,
+    this.preferences,
+  });
 
   @override
   State<SettingsView> createState() => _SettingsViewState();
@@ -24,12 +29,59 @@ class _SettingsViewState extends State<SettingsView> {
   bool _emailNews = true;
   bool _profileSaved = false;
 
-  void _saveProfile() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _profileSaved = true;
-      });
-    }
+  late final SharedPreferencesAsync _preferences;
+
+  @override
+  void initState() {
+    super.initState();
+    _preferences = widget.preferences ?? SharedPreferencesAsync();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    final name = await _preferences.getString('profile_name');
+    final email = await _preferences.getString('profile_email');
+    final phone = await _preferences.getString('profile_phone');
+    final address = await _preferences.getString('profile_address');
+    final emailNews = await _preferences.getBool('profile_email_news');
+
+    if (!mounted) return;
+
+    setState(() {
+      if (name != null) _nameController.text = name;
+      if (email != null) _emailController.text = email;
+      if (phone != null) _phoneController.text = phone;
+      if (address != null) _addressController.text = address;
+      if (emailNews != null) _emailNews = emailNews;
+    });
+  }
+
+  Future<void> _saveProfile() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    await _preferences.setString(
+      'profile_name',
+      _nameController.text,
+    );
+    await _preferences.setString(
+      'profile_email',
+      _emailController.text,
+    );
+    await _preferences.setString(
+      'profile_phone',
+      _phoneController.text,
+    );
+    await _preferences.setString(
+      'profile_address',
+      _addressController.text,
+    );
+    await _preferences.setBool('profile_email_news', _emailNews);
+
+    if (!mounted) return;
+
+    setState(() {
+      _profileSaved = true;
+    });
   }
 
   @override
@@ -63,7 +115,6 @@ class _SettingsViewState extends State<SettingsView> {
             children: [
               const Text('Customer Profile'),
               const SizedBox(height: 16),
-
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
@@ -76,7 +127,6 @@ class _SettingsViewState extends State<SettingsView> {
                   return null;
                 },
               ),
-
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -91,21 +141,18 @@ class _SettingsViewState extends State<SettingsView> {
                   return null;
                 },
               ),
-
               TextFormField(
                 controller: _phoneController,
                 decoration: const InputDecoration(
                   labelText: 'Phone Number',
                 ),
               ),
-
               TextFormField(
                 controller: _addressController,
                 decoration: const InputDecoration(
                   labelText: 'Address',
                 ),
               ),
-
               CheckboxListTile(
                 title: const Text('Receive email news'),
                 value: _emailNews,
@@ -116,16 +163,12 @@ class _SettingsViewState extends State<SettingsView> {
                   });
                 },
               ),
-
               const SizedBox(height: 16),
-
               PrimaryButton(
                 label: 'Save Profile',
                 onPressed: _saveProfile,
               ),
-
-              if (_profileSaved)
-                const Text('Profile saved'),
+              if (_profileSaved) const Text('Profile saved'),
             ],
           ),
         ),
