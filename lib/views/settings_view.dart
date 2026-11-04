@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:southsea_cinema/widgets/primary_button.dart';
@@ -34,7 +35,13 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   void initState() {
     super.initState();
-    _preferences = widget.preferences ?? SharedPreferencesAsync();
+
+    if (widget.preferences != null) {
+      _preferences = widget.preferences!;
+    } else {
+      _preferences = SharedPreferencesAsync();
+    }
+
     _loadProfile();
   }
 
@@ -59,22 +66,10 @@ class _SettingsViewState extends State<SettingsView> {
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await _preferences.setString(
-      'profile_name',
-      _nameController.text,
-    );
-    await _preferences.setString(
-      'profile_email',
-      _emailController.text,
-    );
-    await _preferences.setString(
-      'profile_phone',
-      _phoneController.text,
-    );
-    await _preferences.setString(
-      'profile_address',
-      _addressController.text,
-    );
+    await _preferences.setString('profile_name', _nameController.text);
+    await _preferences.setString('profile_email', _emailController.text);
+    await _preferences.setString('profile_phone', _phoneController.text);
+    await _preferences.setString('profile_address', _addressController.text);
     await _preferences.setBool('profile_email_news', _emailNews);
 
     if (!mounted) return;
@@ -115,6 +110,7 @@ class _SettingsViewState extends State<SettingsView> {
             children: [
               const Text('Customer Profile'),
               const SizedBox(height: 16),
+
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
@@ -127,6 +123,7 @@ class _SettingsViewState extends State<SettingsView> {
                   return null;
                 },
               ),
+
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -141,34 +138,46 @@ class _SettingsViewState extends State<SettingsView> {
                   return null;
                 },
               ),
+
               TextFormField(
                 controller: _phoneController,
                 decoration: const InputDecoration(
                   labelText: 'Phone Number',
                 ),
               ),
+
               TextFormField(
                 controller: _addressController,
                 decoration: const InputDecoration(
                   labelText: 'Address',
                 ),
               ),
+
               CheckboxListTile(
                 title: const Text('Receive email news'),
                 value: _emailNews,
                 onChanged: (value) {
                   setState(() {
-                    _emailNews = value ?? false;
+                    if (value == true) {
+                      _emailNews = true;
+                    } else {
+                      _emailNews = false;
+                    }
+
                     _profileSaved = false;
                   });
                 },
               ),
+
               const SizedBox(height: 16),
+
               PrimaryButton(
                 label: 'Save Profile',
                 onPressed: _saveProfile,
               ),
-              if (_profileSaved) const Text('Profile saved'),
+
+              if (_profileSaved)
+                const Text('Profile saved'),
             ],
           ),
         ),
