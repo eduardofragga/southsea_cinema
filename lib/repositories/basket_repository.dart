@@ -1,10 +1,18 @@
+
 import 'package:southsea_cinema/models/movie.dart';
 
 class BasketRepository {
   final Map<Movie, int> _tickets = {};
 
   void addTickets(Movie movie, int quantity) {
-    _tickets[movie] = (_tickets[movie] ?? 0) + quantity;
+    for (final entry in _tickets.entries) {
+      if (entry.key == movie) {
+        _tickets[movie] = entry.value + quantity;
+        return;
+      }
+    }
+
+    _tickets[movie] = quantity;
   }
 
   void removeTickets(Movie movie) {
