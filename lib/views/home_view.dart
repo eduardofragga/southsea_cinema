@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:southsea_cinema/constants.dart';
 import 'package:southsea_cinema/widgets/nav_drawer.dart';
@@ -34,7 +35,14 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _loadMovies() async {
     try {
-      final repository = widget.movieRepository ?? MovieRepository();
+      MovieRepository repository;
+
+      if (widget.movieRepository != null) {
+        repository = widget.movieRepository!;
+      } else {
+        repository = MovieRepository();
+      }
+
       final movies = await repository.getMovies();
 
       if (!mounted) return;
@@ -55,41 +63,47 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    Widget homeContent;
+
+    if (_isLoading) {
+      homeContent = const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (_errorMessage != null) {
+      homeContent = Center(
+        child: Text(_errorMessage!),
+      );
+    } else {
+      homeContent = ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        itemCount: _movies.length,
+        itemBuilder: (context, index) {
+          final movie = _movies[index];
+
+          return MovieCard(
+            movie: movie,
+            onBookPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MovieListing(
+                    movie: movie,
+                    basketRepository: widget.basketRepository,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(appTitle),
       ),
       drawer: const NavDrawer(),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : _errorMessage != null
-              ? Center(
-                  child: Text(_errorMessage!),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  itemCount: _movies.length,
-                  itemBuilder: (context, index) {
-                    final movie = _movies[index];
-
-                    return MovieCard(
-                      movie: movie,
-                      onBookPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MovieListing(
-                              movie: movie,
-                              basketRepository: widget.basketRepository,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+      body: homeContent,
     );
   }
 }
